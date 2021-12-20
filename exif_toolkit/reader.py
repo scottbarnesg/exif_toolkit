@@ -1,4 +1,5 @@
 import os
+from typing import List, Dict
 
 import exif
 import plum.exceptions
@@ -11,7 +12,7 @@ class ExifReader:
     def __init__(self, filepath: str):
         self.filepath = filepath
 
-    def get_exif(self) -> dict:
+    def get_exif(self) -> Dict[str, any]:
         with open(self.filepath, 'rb') as image_file:
             try:
                 exif_data = exif.Image(image_file)
@@ -24,7 +25,7 @@ class BulkExifReader:
     def __init__(self, directory: str):
         self.directory = directory
 
-    def get_exif(self) -> dict:
+    def get_exif(self) -> Dict[str, Dict[str, any]]:
         exif_data = {}
         files = self.find_files(self.directory)
         for file in files:
@@ -34,7 +35,7 @@ class BulkExifReader:
         return exif_data
 
     @staticmethod
-    def find_files(directory: str) -> list:
+    def find_files(directory: str) -> List[str]:
         files = []
         for entry in os.scandir(directory):
             if entry.is_file() and any(file_type in entry.name for file_type in file_types):
@@ -42,6 +43,6 @@ class BulkExifReader:
         return files
 
     @staticmethod
-    def print_exif_data(exif_data: dict):
+    def print_exif_data(exif_data: Dict[str, any]):
         for file_path, exif in exif_data.items():
             print(str(file_path) + ": " + str(exif))

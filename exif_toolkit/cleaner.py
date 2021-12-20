@@ -1,11 +1,12 @@
 import multiprocessing
-import os
 from multiprocessing import Pool
+import os
+from typing import List
 
 import PIL
 from PIL import Image
 
-from common import apply_transforms
+from exif_toolkit.common import apply_transforms
 
 file_types = [".jpeg", ".jpg", ".png", ".tiff"]
 filename_modifier = "_clean"
@@ -50,9 +51,7 @@ class ExifCleaner:
 
     @staticmethod
     def verify_clean_file(img: Image.Image) -> bool:
-        if not img.getexif():
-            return True
-        return False
+        return not img.getexif()
 
     @staticmethod
     def save_image(new_filepath: str, img: Image.Image):
@@ -81,7 +80,7 @@ class BulkExifCleaner:
             counter += 1
         print("Skipped " + str(error_counter) + " of " + str(total_files))
 
-    def find_files(self, directory: str) -> list:
+    def find_files(self, directory: str) -> List[str]:
         files = []
         for entry in os.scandir(directory):
             if entry.is_file() and \

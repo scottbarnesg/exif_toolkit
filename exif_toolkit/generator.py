@@ -1,3 +1,5 @@
+from typing import Dict
+
 import exif
 
 
@@ -15,14 +17,13 @@ class ExifGenerator:
         with open(self.filepath, 'rb') as image_file:
             self.exif_data = exif.Image(image_file)
 
-    def get_exif(self) -> dict:
+    def get_exif(self) -> Dict[str, any]:
         return self.exif_data.get_all()
 
-    def set_exif_value(self, key, value) -> bool:
+    def set_exif_value(self, key, value):
         self.exif_data.set(key, value)
-        return True
 
-    def save_image_with_exif(self) -> bool:
+    def save_image_with_exif(self):
         with open(self.get_modified_filepath(), 'wb') as new_image_file:
             new_image_file.write(self.exif_data.get_file())
 

@@ -7,4 +7,5 @@ setuptools.setup(
     url='https://github.com/scottbarnesg/exif_toolkit',
     packages=setuptools.find_packages(),
     install_requires=["Pillow", "exif"],
+    tests_require=["pytest"]
 )
