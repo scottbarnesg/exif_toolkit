@@ -28,7 +28,6 @@ class BulkExifReader:
         exif_data = {}
         files = self.find_files(self.directory)
         for file in files:
-            # if filename_modifier not in file.name:
             exif_reader = ExifReader(file.path)
             data = exif_reader.get_exif()
             exif_data[file.path] = data

@@ -11,10 +11,9 @@ class ExifGenerator:
         self.img = None
         self.exif_data = None
 
-    def load_exif(self) -> bool:
+    def load_exif(self):
         with open(self.filepath, 'rb') as image_file:
             self.exif_data = exif.Image(image_file)
-            return True
 
     def get_exif(self) -> dict:
         return self.exif_data.get_all()

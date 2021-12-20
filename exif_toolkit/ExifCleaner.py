@@ -1,8 +1,7 @@
+import multiprocessing
 import os
-from multiprocessing import Process, Pool
+from multiprocessing import Pool
 
-import exif
-import plum
 import PIL
 from PIL import Image
 
@@ -51,8 +50,7 @@ class ExifCleaner:
 
     @staticmethod
     def verify_clean_file(img: Image.Image) -> bool:
-        exif = img.getexif()
-        if not exif:
+        if not img.getexif():
             return True
         return False
 
@@ -65,7 +63,7 @@ class BulkExifCleaner:
     def __init__(self, directory: str):
         self.directory = directory
         self.filename_modification = filename_modifier
-        self.multiprocessing_pool = Pool(processes=4)
+        self.multiprocessing_pool = Pool(processes=multiprocessing.cpu_count() - 1)
 
     def clean_exif(self):
         files = self.find_files(self.directory)
